@@ -1,0 +1,26 @@
+from django.conf.urls.static import static
+from django.urls import path, register_converter
+
+
+from sitewomen import settings
+from . import views
+from . import converters
+
+#register_converter(converters.FourDigitYearConverter, "a_year")
+
+urlpatterns = [
+
+    path('', views.WomenHome.as_view(), name='home'), #http://127.0.0.1:8000/
+    path('about', views.about, name='about'),
+    path('addpage/', views.AddPage.as_view(), name='add_page'),
+    path('contact/', views.ContactFormView.as_view(), name='contact'),
+    path('login/', views.login, name='login'),
+    path('post/<slug:post_slug>/', views.ShowPost.as_view(), name='post'),
+    path('categories/<slug:cat_slug>', views.WomenCategory.as_view(), name='category'),
+    path('tag/<slug:tag_slug>', views.WomenTagView.as_view(), name='tag'),
+    path('edit/<slug:slug>/', views.UpdatePage.as_view(), name='edit_page'),
+    path('delete/<slug:slug>/', views.DeletePage.as_view(), name='delete_page'),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
